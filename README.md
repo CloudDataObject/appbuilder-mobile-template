@@ -1,8 +1,9 @@
-# appbuilder-mobile-template
-A project template for creating JSDO mobile applications designed for use with an OpenEdge or Rollbase service.
 
 JSDO Mobile Project Template
 ===============
+###appbuilder-mobile-template
+A project template for creating JSDO mobile applications designed for use with an OpenEdge or Rollbase service.
+
 <a href="https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FCloudDataObject%2FJSDO%2Fappbuilder-mobile-template" target="_blank"><img src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/try-in-appbuilder.png" alt="Try in AppBuilder" title="Try in AppBuilder" /></a>
 
 This template can be used in the Telerik Platform to build a Hybrid Mobile App using the JSDO libraries.
