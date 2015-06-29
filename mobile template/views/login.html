@@ -10,7 +10,7 @@
     <div>
         <ul id="logout" data-role="listview" data-style="inset">
             <li>
-                <h3 id = "welcome">
+                <h3 id="welcome">
                     Welcome, <span data-bind=" text: username"></span>!
                 </h3>
                 <input style="width: 100%" id="logout" type="submit" data-role="button" data-bind="click: logout, visible: isLoggedIn" value="Logout" class="login-button" />
@@ -24,7 +24,7 @@
             <li>
                 <label>
                     User:
-                    <input type="text" id='username' style="width: 70%" data-bind="value: username"  autocapitalize="off" />
+                    <input type="text" id='username' style="width: 70%" data-bind="value: username" autocapitalize="off" autocorrect="off" />
                 </label>
             </li>
             <li>

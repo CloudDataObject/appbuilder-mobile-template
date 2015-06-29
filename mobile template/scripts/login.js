@@ -1,6 +1,10 @@
 // Add data model for login page
-function loginDataSource (global) {
-     myApp.loginModel = kendo.observable({
+function loginDataSource ( ) {
+    if (typeof(myApp) === "undefined") {
+        myApp = {};                
+    }
+ 
+    myApp.loginModel = kendo.observable({
         username: "",
         password: "",
         
@@ -64,11 +68,11 @@ function loginDataSource (global) {
                     app.navigate("views/login.html");
                 });
                 promise.fail( function(jsdosession, result, info) {
-                     myApp.listModel.logoutErrorFn(jsdosession, result, info);
+                     myApp.loginModel.logoutErrorFn(jsdosession, result, info);
                 });              
             }
             catch(ex) {
-               myApp.listModel.logoutErrorFn(myApp.jsdosession, progress.data.Session.GENERAL_FAILURE, 
+               myApp.loginModel.logoutErrorFn(myApp.jsdosession, progress.data.Session.GENERAL_FAILURE, 
                                                         {errorObject: ex});
             } 
         },
@@ -82,9 +86,11 @@ function loginDataSource (global) {
         },
         
         onBeforeShow: function(e){
-            // Always clear password
+            // Always clear password and set initial focus
             myApp.loginModel.set("password", "");
-            // If logged in, show welcome message
+			$("#username").focus();
+            
+			// If logged in, show welcome message
             if (myApp.loginModel.isLoggedIn) {
                 $("#credentials").parent().hide();
                 $("#username").parent().hide();
@@ -96,7 +102,8 @@ function loginDataSource (global) {
                 $("#credentials").parent().show();
                 $("#username").parent().show();
                 $("#password").parent().show();
-                $("#welcome").parent().hide();            }
+                $("#welcome").parent().hide();            
+            }
          },
          
         addCatalogErrorFn: function(jsdosession, result, details) {
@@ -131,13 +138,17 @@ function loginDataSource (global) {
          loginErrorFn: function(jsdosession, result, info) {
             console.log("Error on login");
             var msg = "";
+             
+            // Always clear out password
+            myApp.loginModel.set("password", "");
+ 
             switch (result) {
                 case progress.data.Session.LOGIN_AUTHENTICATION_FAILURE:
                     msg = "Invalid userid or password";
                     break;
                 case progress.data.Session.LOGIN_GENERAL_FAILURE:
                 default:
-                    msg = "Service is unavailable";
+                    msg = "Service " + jsdoSettings.serviceURI + " is unavailable" ;
                     break;
             }       
             myApp.showError(msg);
@@ -153,6 +164,6 @@ function loginDataSource (global) {
                 msg = msg + "\n" + info.errorObject;
             }
             console.log(msg);
-        }
+       }
     });  
 }

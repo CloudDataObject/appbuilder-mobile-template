@@ -1,6 +1,9 @@
-
 // Add data model for list page
-function listDataSource(global) {
+function listDataSource( ) {
+    if (typeof(myApp) === "undefined") {
+       myApp = {};                
+    }
+
     myApp.listModel = kendo.observable({
         
     onInit: function(e) {    
@@ -10,12 +13,14 @@ function listDataSource(global) {
     onBeforeShow: function(e) {    
         if (!myApp.loginModel.isLoggedIn && !myApp.isAnonymous()) {
             myApp.showError("Please login first");
-                        e.preventDefault();
         }
         else {
             var listView = $("#my-list").data("kendoMobileListView");
             if (listView !== undefined) {
                 listView.dataSource.read();                
+            }
+            else {
+                myApp.listModel.initListView();
             }
         }
     },
@@ -26,6 +31,9 @@ function listDataSource(global) {
         if (jsdoSettings.resourceName) {
             jsdoDataSource = new kendo.data.DataSource({
                 type: "jsdo",
+   				serverPaging: true,
+  				serverSorting: true,
+  				serverFiltering: true,
                 transport: {
                     jsdo: jsdoSettings.resourceName
                 },
