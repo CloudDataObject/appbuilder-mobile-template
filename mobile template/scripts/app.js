@@ -16,7 +16,11 @@
             };
 
             myApp.showError = function (message){
-                navigator.notification.alert(message);
+                if(navigator.notification){
+                    navigator.notification.alert(message);
+                } else {
+                    alert(message);
+                }
             };
             
             loginDataSource();
