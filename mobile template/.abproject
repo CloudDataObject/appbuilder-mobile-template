@@ -1,11 +1,11 @@
 {
-  "ProjectName": "OETemplate",
-  "ProjectGuid": "ef93aa4a-37f0-4c0e-b69c-55b4f374bd28",
+  "ProjectName": "TestV2",
+  "ProjectGuid": "57b03826-20f6-4e16-931d-e40105e6bf08",
   "projectVersion": 1,
-  "AppIdentifier": "com.telerik.OETemplate",
-  "DisplayName": "OETemplate",
+  "AppIdentifier": "com.telerik.MobileTemplateV2",
+  "DisplayName": "MobileTemplateV2",
   "Author": "",
-  "Description": "OETemplate",
+  "Description": "MobileTemplateV2",
   "BundleVersion": "1.0",
   "AndroidVersionCode": "1",
   "iOSDeviceFamily": [
@@ -32,10 +32,10 @@
     "ID_CAP_WEBBROWSERCOMPONENT"
   ],
   "WP8Requirements": [],
-  "WP8PublisherID": "{69dca2f7-989c-4e47-9417-97b1213661c9}",
-  "WP8ProductID": "{7ced54f2-f44b-4a3e-b7ca-64a72b044af3}",
+  "WP8PublisherID": "{76214d27-f593-41e4-bd5c-c7a397d8e447}",
+  "WP8ProductID": "{b20f98dc-7a7e-4f92-9993-be1c71ceafa4}",
   "WPSdk": "8.0",
-  "WP8PackageIdentityName": "1234Telerik.OETemplate",
+  "WP8PackageIdentityName": "1234Telerik.MobileTemplateV2",
   "WP8WindowsPublisherName": "CN=Telerik",
   "WP8SupportedResolutions": [
     "ID_RESOLUTION_WVGA",

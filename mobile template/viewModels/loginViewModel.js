@@ -1,37 +1,62 @@
-// Add data model for login page
-function loginDataSource ( ) {
-    if (typeof(myApp) === "undefined") {
-        myApp = {};
-    }
+'use strict';
 
-    myApp.loginModel = kendo.observable({
+(function(parent) {
+    var loginViewModel = kendo.observable({
         username: "",
         password: "",
+        isLoggedIn: false,
+        //loginLabel: "Login",
+        //logoutLabel: "Logout",
         
-         login: function(e) {    
+        onBeforeShow: function(e) {
+            // Always clear password
+            app.viewModels.loginViewModel.set("password", "");
+
+            // If logged in, show welcome message
+            if (app.viewModels.loginViewModel.isLoggedIn) {
+                $("#credentials").parent().hide();
+                $("#username").parent().hide();
+                $("#password").parent().hide();
+                $("#welcome").parent().show();
+          		//app.changeTitle(app.viewModels.loginViewModel.logoutLabel);
+            } else {
+                //else show login screen
+                app.viewModels.loginViewModel.set("username", "");
+                $("#credentials").parent().show();
+                $("#username").parent().show();
+                $("#password").parent().show();
+                $("#welcome").parent().hide();            
+          		//app.changeTitle(app.viewModels.loginViewModel.loginLabel);
+            }        
+        },
+
+        onInit: function(e) { 
+        },
+        
+        login: function(e) {    
             var that = this, 
                 details,
                 promise;
             try { 
-                promise = myApp.jsdosession.login(this.get("username"), this.get("password"));
+                promise = app.jsdosession.login(this.get("username"), this.get("password"));
                 promise.done( function( jsdosession, result, info ) {
                     try { 
                         console.log("Success on login()");   
                         that.set("isLoggedIn", true);
-                        myApp.loginModel.onBeforeShow( );
+                        app.viewModels.loginViewModel.onBeforeShow( );
                         var catPromise = jsdosession.addCatalog(jsdoSettings.catalogURIs);
                         catPromise.done( function( jsdosession, result, details ) { 
-                            console.log("Success on addCatalog()");            
+                            console.log("Success on addCatalog()");
                          });
                         
                         catPromise.fail( function( jsdosession, result, details) {
-                            myApp.loginModel.addCatalogErrorFn(jsdosession, 
+                            app.viewModels.loginViewModel.addCatalogErrorFn(app.jsdosession, 
                                                     progress.data.Session.GENERAL_FAILURE, details);
                         });  
                     } 
                     catch(ex) {
                         details = [{"catalogURI": jsdoSettings.catalogURIs, errorObject: ex}];
-                        myApp.loginModel.addCatalogErrorFn(jsdosession, 
+                        app.viewModels.loginViewModel.addCatalogErrorFn(app.jsdosession, 
                                                     progress.data.Session.GENERAL_FAILURE, details);
                     } 
  
@@ -39,44 +64,46 @@ function loginDataSource ( ) {
                 
               
                promise.fail( function(jsdosession, result, info) {
-                    myApp.loginModel.loginErrorFn(jsdosession, result, info);
+                    app.viewModels.loginViewModel.loginErrorFn(app.jsdosession, result, info);
                 }); // end promise.fail
             }
             catch(ex) {
-               myApp.loginModel.loginErrorFn(myApp.jsdosession, progress.data.Session.GENERAL_FAILURE,
+               app.viewModels.loginViewModel.loginErrorFn(app.jsdosession, progress.data.Session.GENERAL_FAILURE, 
                                                     {errorObject: ex});
             } 
         },
          
         logout: function(e) {
             var that = this,
-                promise;
+                promise,
+                clistView;
                 
             if (e) {
                 e.preventDefault();
             }
             try {
-                promise = myApp.jsdosession.logout();
+                promise = app.jsdosession.logout();
                 promise.done( function(jsdosession, result, info) {
                     console.log("Success on logout()"); 
                     that.set("isLoggedIn", false);
-                    myApp.loginModel.onBeforeShow( );
+                    app.viewModels.loginViewModel.onBeforeShow();
                     
-                    // Clear ListView
-                    $("#my-list").data("kendoMobileListView").dataSource.data([]);
-                    
-                    app.navigate("views/login.html");
+                    if (app.viewModels.listViewModel) {
+                        // Remove any leftover data
+                        app.viewModels.listViewModel.clearData();   
+                    }
                 });
                 promise.fail( function(jsdosession, result, info) {
-                     myApp.loginModel.logoutErrorFn(jsdosession, result, info);
+                     app.viewModels.loginViewModel.logoutErrorFn(jsdosession, result, info);
                 });              
             }
             catch(ex) {
-               myApp.loginModel.logoutErrorFn(myApp.jsdosession, progress.data.Session.GENERAL_FAILURE,
-                                                        {errorObject: ex});
+               app.viewModels.loginViewModel.logoutErrorFn(app.jsdosession, progress.data.Session.GENERAL_FAILURE, 
+                   {errorObject: ex});
             } 
         },
  
+      
         checkEnter: function (e) {
             var that = this;
             if (e.keyCode === 13) {
@@ -85,46 +112,25 @@ function loginDataSource ( ) {
             }
         },
         
-        onBeforeShow: function(e){
-            // Always clear password and set initial focus
-            myApp.loginModel.set("password", "");
-            $("#username").focus();
-
-            // If logged in, show welcome message
-            if (myApp.loginModel.isLoggedIn) {
-                $("#credentials").parent().hide();
-                $("#username").parent().hide();
-                $("#password").parent().hide();
-                $("#welcome").parent().show();
-            } else {
-                //else show login screen
-                myApp.loginModel.set("username", "");
-                $("#credentials").parent().show();
-                $("#username").parent().show();
-                $("#password").parent().show();
-                $("#welcome").parent().hide();
-            }
-         },
-         
         addCatalogErrorFn: function(jsdosession, result, details) {
             var msg = "", i;            
             console.log("Error on addCatalog()");            
             if (details !== undefined  && Array.isArray(details)){
                 for (i = 0; i < details.length; i += 1){
-                    msg = msg + "\n" + details[i].errorObject;
+                    msg = msg + "\nresult for " + details[i].catalogURI + ": " + details[i].result + "\n    " + details[i].errorObject;
                 }
             }
-            myApp.showError(msg);
+            app.showError(msg);
             console.log(msg);   
             // Now logout
-            if (myApp.loginModel.isLoggedIn) { 
-                myApp.loginModel.logout();
+            if (app.viewModels.loginViewModel.isLoggedIn) { 
+                app.viewModels.loginViewModel.logout();
             }
         },
         
         logoutErrorFn: function(jsdosession, result, info) {
             var msg = "Error on logout";
-            myApp.showError(msg);
+            app.showError(msg);
             if (info.errorObject !== undefined) {
                 msg = msg + "\n" + info.errorObject;
             }
@@ -136,22 +142,17 @@ function loginDataSource ( ) {
         },
 
          loginErrorFn: function(jsdosession, result, info) {
-            console.log("Error on login");
-            var msg = "";
-
-            // Always clear out password
-            myApp.loginModel.set("password", "");
-
-            switch (result) {
+            var msg = "Error on login";
+             switch (result) {
                 case progress.data.Session.LOGIN_AUTHENTICATION_FAILURE:
-                    msg = "Invalid userid or password";
+                    msg = msg + " Invalid userid or password";
                     break;
                 case progress.data.Session.LOGIN_GENERAL_FAILURE:
                 default:
-                    msg = "Service " + jsdoSettings.serviceURI + " is unavailable" ;
+                    msg = msg + " Service " + jsdoSettings.serviceURI + " is unavailable";
                     break;
             }       
-            myApp.showError(msg);
+            app.showError(msg);
             if (info.xhr) {
                 msg = msg + " status (from jqXHT):" + info.xhr.status;
                 msg = msg + " statusText (from jqXHT):" + info.xhr.statusText;
@@ -164,6 +165,9 @@ function loginDataSource ( ) {
                 msg = msg + "\n" + info.errorObject;
             }
             console.log(msg);
-        }
+         }
     });
-}
+    
+    parent.loginViewModel = loginViewModel;
+    
+})(app.viewModels);
