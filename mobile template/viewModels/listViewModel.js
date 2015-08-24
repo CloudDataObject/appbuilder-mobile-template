@@ -114,10 +114,6 @@
             if (info.errorObject !== undefined) {
                 msg = msg + "\n" + info.errorObject;
             }
-            if (info.xhr) {
-                msg = msg + "\n" + "status (from jqXHT):" + info.xhr.status;
-                msg = msg + " statusText (from jqXHT):" + info.xhr.statusText;
-            }
             console.log(msg);
         },
         
