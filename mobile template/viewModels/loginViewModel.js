@@ -7,7 +7,7 @@
         isLoggedIn: false,
         //loginLabel: "Login",
         //logoutLabel: "Logout",
-        
+
         onBeforeShow: function(e) {
             // Always clear password
             app.viewModels.loginViewModel.set("password", "");
@@ -18,51 +18,49 @@
                 $("#username").parent().hide();
                 $("#password").parent().hide();
                 $("#welcome").parent().show();
-          		//app.changeTitle(app.viewModels.loginViewModel.logoutLabel);
+                //app.changeTitle(app.viewModels.loginViewModel.logoutLabel);
             } else {
                 //else show login screen
                 app.viewModels.loginViewModel.set("username", "");
                 $("#credentials").parent().show();
                 $("#username").parent().show();
                 $("#password").parent().show();
-                $("#welcome").parent().hide();            
-          		//app.changeTitle(app.viewModels.loginViewModel.loginLabel);
-            }        
+                $("#welcome").parent().hide();
+                //app.changeTitle(app.viewModels.loginViewModel.loginLabel);
+            }
         },
 
-        onInit: function(e) { 
+        onInit: function(e) {
         },
-        
-        login: function(e) {    
-            var that = this, 
+
+        login: function(e) {
+            var that = this,
                 details,
                 promise;
             try { 
                 promise = app.jsdosession.login(this.get("username"), this.get("password"));
                 promise.done( function( jsdosession, result, info ) {
-                    try { 
-                        console.log("Success on login()");   
+                    try {
+                        console.log("Success on login()");
                         that.set("isLoggedIn", true);
                         app.viewModels.loginViewModel.onBeforeShow( );
                         var catPromise = jsdosession.addCatalog(jsdoSettings.catalogURIs);
                         catPromise.done( function( jsdosession, result, details ) { 
                             console.log("Success on addCatalog()");
                          });
-                        
+
                         catPromise.fail( function( jsdosession, result, details) {
                             app.viewModels.loginViewModel.addCatalogErrorFn(app.jsdosession, 
                                                     progress.data.Session.GENERAL_FAILURE, details);
-                        });  
-                    } 
+                        });
+                    }
                     catch(ex) {
                         details = [{"catalogURI": jsdoSettings.catalogURIs, errorObject: ex}];
                         app.viewModels.loginViewModel.addCatalogErrorFn(app.jsdosession, 
                                                     progress.data.Session.GENERAL_FAILURE, details);
-                    } 
- 
+                    }
                 });
-                
-              
+
                promise.fail( function(jsdosession, result, info) {
                     app.viewModels.loginViewModel.loginErrorFn(app.jsdosession, result, info);
                 }); // end promise.fail
@@ -70,40 +68,39 @@
             catch(ex) {
                app.viewModels.loginViewModel.loginErrorFn(app.jsdosession, progress.data.Session.GENERAL_FAILURE, 
                                                     {errorObject: ex});
-            } 
+            }
         },
-         
+
         logout: function(e) {
             var that = this,
                 promise,
                 clistView;
-                
+
             if (e) {
                 e.preventDefault();
             }
             try {
                 promise = app.jsdosession.logout();
                 promise.done( function(jsdosession, result, info) {
-                    console.log("Success on logout()"); 
+                    console.log("Success on logout()");
                     that.set("isLoggedIn", false);
                     app.viewModels.loginViewModel.onBeforeShow();
-                    
+
                     if (app.viewModels.listViewModel) {
                         // Remove any leftover data
-                        app.viewModels.listViewModel.clearData();   
+                        app.viewModels.listViewModel.clearData();
                     }
                 });
                 promise.fail( function(jsdosession, result, info) {
                      app.viewModels.loginViewModel.logoutErrorFn(jsdosession, result, info);
-                });              
+                });
             }
             catch(ex) {
                app.viewModels.loginViewModel.logoutErrorFn(app.jsdosession, progress.data.Session.GENERAL_FAILURE, 
                    {errorObject: ex});
-            } 
+            }
         },
- 
-      
+
         checkEnter: function (e) {
             var that = this;
             if (e.keyCode === 13) {
@@ -111,23 +108,23 @@
                 that.login();
             }
         },
-        
+
         addCatalogErrorFn: function(jsdosession, result, details) {
-            var msg = "", i;            
-            console.log("Error on addCatalog()");            
+            var msg = "", i;
+            console.log("Error on addCatalog()");
             if (details !== undefined  && Array.isArray(details)){
                 for (i = 0; i < details.length; i += 1){
                     msg = msg + "\nresult for " + details[i].catalogURI + ": " + details[i].result + "\n    " + details[i].errorObject;
                 }
             }
             app.showError(msg);
-            console.log(msg);   
+            console.log(msg);
             // Now logout
             if (app.viewModels.loginViewModel.isLoggedIn) { 
                 app.viewModels.loginViewModel.logout();
             }
         },
-        
+
         logoutErrorFn: function(jsdosession, result, info) {
             var msg = "Error on logout";
             app.showError(msg);
@@ -151,13 +148,13 @@
                 default:
                     msg = msg + " Service " + jsdoSettings.serviceURI + " is unavailable";
                     break;
-            }       
+            }
             app.showError(msg);
             if (info.xhr) {
                 msg = msg + " status (from jqXHT):" + info.xhr.status;
                 msg = msg + " statusText (from jqXHT):" + info.xhr.statusText;
                 if (info.xhr.status === 200) {
-                    //something is likely wrong with the catalog, so dump it out     
+                    //something is likely wrong with the catalog, so dump it out
                     msg = msg + "\nresponseText (from jqXHT):" + info.xhr.responseText;
                 }
             }
@@ -167,7 +164,7 @@
             console.log(msg);
          }
     });
-    
+
     parent.loginViewModel = loginViewModel;
-    
+
 })(app.viewModels);

@@ -2,19 +2,19 @@
 
 (function (parent) {
     var listViewModel = kendo.observable({
-    	jsdoDataSource: undefined,
+        jsdoDataSource: undefined,
         jsdoModel: undefined,
-    	selectedRow: {},
+        selectedRow: {},
         origRow: {},
         resourceName: undefined,
-        
+
         // The order of the firing of events is as follows:
         //   before-show
         //   init (fires only once)
         //   show
-            
-    	onBeforeShow: function(e) {
-        	var clistView;   
+
+        onBeforeShow: function(e) {
+            var clistView;
 
             clistView = $("#listListView").data("kendoMobileListView");
             if (clistView == undefined) {
@@ -24,17 +24,17 @@
             }
 
             // Set list title to resource name
-         	if (app.viewModels.listViewModel.resourceName != undefined) {
-            	app.changeTitle(app.viewModels.listViewModel.resourceName);
-        	}
-      	},
-           
-    	onInit: function(e) {    
-        	var idx;
-        	try {
+            if (app.viewModels.listViewModel.resourceName != undefined) {
+                app.changeTitle(app.viewModels.listViewModel.resourceName);
+            }
+        },
+
+        onInit: function(e) {
+            var idx;
+            try {
                 // Create Data Source
                 app.viewModels.listViewModel.createJSDODataSource();
-                
+
                 // Create list
                 if (jsdoSettings && jsdoSettings.displayFields) {
                      $("#listListView").kendoMobileListView({
@@ -42,30 +42,30 @@
                         autoBind: false,
                         pullToRefresh: true,
                         appendOnRefresh: false,
-                		endlessScroll: true,
-                		virtualViewSize: 100,
-                        template: "#:" + jsdoSettings.displayFields.split(",").join("#</br> #:") + "#",               
+                        endlessScroll: true,
+                        virtualViewSize: 100,
+                        template: "#:" + jsdoSettings.displayFields.split(",").join("#</br> #:") + "#",
 
                         click: function(e) {
                             // console.log("e.dataItem._id " + e.dataItem._id);
-                            app.viewModels.listViewModel.set("selectedRow", e.dataItem);                	
+                            app.viewModels.listViewModel.set("selectedRow", e.dataItem);
                         }
-                	});
+                    });
                 }
                 else {
-                	console.log("Warning: jsdoSettings.displayFields not specified");
+                    console.log("Warning: jsdoSettings.displayFields not specified");
                 }
             }
-        	catch (ex) {    
-            	console.log("Error in initListView: " + ex);        
-        	}
-		},
-        
-    	createJSDODataSource: function( ) {
+            catch (ex) {
+                console.log("Error in initListView: " + ex);
+            }
+        },
+
+        createJSDODataSource: function( ) {
             try { 
                 // create JSDO
-                if (jsdoSettings && jsdoSettings.resourceName) {   
-                	this.jsdoModel = new progress.data.JSDO({ name : jsdoSettings.resourceName,
+                if (jsdoSettings && jsdoSettings.resourceName) {
+                    this.jsdoModel = new progress.data.JSDO({ name : jsdoSettings.resourceName,
                         autoFill : false, events : {
                             'afterFill' : [ {
                                 scope : this,
@@ -83,10 +83,10 @@
                     });
                     this.jsdoDataSource = new kendo.data.DataSource({
                         type: "jsdo",
-						// TO_DO - Enter your filtering and sorting options
-						//serverFiltering: true,
+                        // TO_DO - Enter your filtering and sorting options
+                        //serverFiltering: true,
                         //serverSorting: true,
- 						//filter: { field: "State", operator: "startswith", value: "MA" },
+                        //filter: { field: "State", operator: "startswith", value: "MA" },
                         //sort: [ { field: "Name", dir: "desc" } ],
                         transport: {
                             jsdo: this.jsdoModel
@@ -105,9 +105,9 @@
            }
            catch(ex) {
                app.viewModels.listViewModel.createDataSourceErrorFn({errorObject: ex});
-           } 
+           }
         },
-        
+
         createDataSourceErrorFn: function(info) {
             var msg = "Error on create DataSource";
             app.showError(msg);
@@ -116,14 +116,13 @@
             }
             console.log(msg);
         },
-        
+
         clearData: function () {
             var that = this,
                 clistView; 
-            //that.jsdoModel = undefined;
-            //that.jsdoDataSource = undefined;
+
             if (that.jsdoModel) {
-				that.jsdoModel.addRecords([], progress.data.JSDO.MODE_EMPTY);
+                that.jsdoModel.addRecords([], progress.data.JSDO.MODE_EMPTY);
             }
             clistView = $("#listListView").data("kendoMobileListView");
             if (clistView && clistView.dataSource) {
@@ -132,9 +131,8 @@
                 clistView.refresh();
             }
        },
-        
-	});    
-    
+    });
+
     parent.listViewModel = listViewModel;
-    
+
 })(app.viewModels);

@@ -5,7 +5,7 @@
         data: {},
         mobileApp: {},
         jsdoSession: {},
-    	views: {},
+        views: {},
         viewModels: {}
     };
 
@@ -38,17 +38,17 @@
                 else {
                     console.log("Error: jsdoSettings.serviceURI must be specified.");
                 }
-               
-                if (app.jsdosession && app.isAnonymous()) {    
+
+                if (app.jsdosession && app.isAnonymous()) {
                     // Login as anonymous automatically, data will be available on list page
                     $('#loginIcon').hide();
                     app.viewModels.loginViewModel.login();
-        		}
-        	} 
-       		catch(ex) { 
-            	console.log("Error creating JSDOSession: " + ex);        
-        	}    
-		});
+                }
+            }
+            catch(ex) {
+                console.log("Error creating JSDOSession: " + ex);
+            }
+        });
     };
 
     if (window.cordova) {
@@ -75,10 +75,10 @@
             return navigator.connection.type !== 'none';
         }
     };
-    
+
    app.isAnonymous = function() {
         // authenticationModel defaults to "ANONYMOUS"
-        if (!jsdoSettings.authenticationModel || 
+        if (!jsdoSettings.authenticationModel ||
              jsdoSettings.authenticationModel.toUpperCase() === "ANONYMOUS") {
             return true;
         } 
@@ -86,27 +86,26 @@
         return false;
     };
 
-	app.showError = function (message) {
-    	if (navigator && navigator.notification) {
+    app.showError = function (message) {
+        if (navigator && navigator.notification) {
             navigator.notification.alert(message);
         } else {
             // if run directly in browser
             alert(message);
         }
     };
-    
-    app.changeTitle =  function (customTitle) {
-    	app.mobileApp.view().header.find('[data-role="navbar"]').data('kendoMobileNavBar').title(customTitle);
-        //$("#navbar").data("kendoMobileNavBar").title(customTitle);
-   	};
 
-	app.onSelectTab = function (e) {
-		if (e.item[0].id == "listIcon") {
-       		if (!app.viewModels.loginViewModel.isLoggedIn && !app.isAnonymous()) {
+    app.changeTitle =  function (customTitle) {
+        app.mobileApp.view().header.find('[data-role="navbar"]').data('kendoMobileNavBar').title(customTitle);
+    };
+
+    app.onSelectTab = function (e) {
+        if (e.item[0].id == "listIcon") {
+            if (!app.viewModels.loginViewModel.isLoggedIn && !app.isAnonymous()) {
                 app.showError("Please login first.");
-        		e.preventDefault();
-			}            
-        }                
+                e.preventDefault();
+            }
+        }
     };
     
 }());
