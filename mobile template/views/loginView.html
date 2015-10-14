@@ -1,13 +1,12 @@
 <!-- Login view -->
-<div id="login-form"
+<div id="login"
      data-role="view"
-     data-title="Login"
      data-init="app.viewModels.loginViewModel.onInit"
      data-before-show="app.viewModels.loginViewModel.onBeforeShow"
      data-model="app.viewModels.loginViewModel">
 
     <div>
-        <ul id="logout" data-role="listview" data-style="">
+        <ul id="logoutListView" data-role="listview" data-style="">
             <li>
                 <h3 id="welcome">
                     Welcome, <span data-bind=" text: username"></span>!
@@ -19,7 +18,7 @@
     <form data-bind="events: { keyup: checkEnter }">
         <img src="img/Progress_RGB.png" id="loginIcon" style="width: 100%;"/>
         <h3 data-bind="invisible: isLoggedIn" id="credentials">Enter your credentials:</h3>
-        <ul id="login" data-role="listview" data-style="inset">
+        <ul id="loginListView" data-role="listview" data-style="inset">
             <li>
                 <label>
                     User:

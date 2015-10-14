@@ -1,12 +1,10 @@
-'use strict';
+//"use strict";
 
 (function(parent) {
     var loginViewModel = kendo.observable({
         username: "",
         password: "",
         isLoggedIn: false,
-        //loginLabel: "Login",
-        //logoutLabel: "Logout",
         
         onBeforeShow: function(e) {
             // Always clear password
@@ -18,7 +16,6 @@
                 $("#username").parent().hide();
                 $("#password").parent().hide();
                 $("#welcome").parent().show();
-          		//app.changeTitle(app.viewModels.loginViewModel.logoutLabel);
             } else {
                 //else show login screen
                 app.viewModels.loginViewModel.set("username", "");
@@ -26,7 +23,6 @@
                 $("#username").parent().show();
                 $("#password").parent().show();
                 $("#welcome").parent().hide();            
-          		//app.changeTitle(app.viewModels.loginViewModel.loginLabel);
             }        
         },
 
@@ -68,15 +64,15 @@
                 }); // end promise.fail
             }
             catch(ex) {
-               app.viewModels.loginViewModel.loginErrorFn(app.jsdosession, progress.data.Session.GENERAL_FAILURE, 
+               app.viewModels.loginViewModel.loginErrorFn(app.jsdosession, 
+                                                    progress.data.Session.GENERAL_FAILURE, 
                                                     {errorObject: ex});
             } 
         },
          
         logout: function(e) {
             var that = this,
-                promise,
-                clistView;
+                promise;
                 
             if (e) {
                 e.preventDefault();
@@ -88,9 +84,9 @@
                     that.set("isLoggedIn", false);
                     app.viewModels.loginViewModel.onBeforeShow();
                     
-                    if (app.viewModels.listViewModel) {
+                    if (app.viewModels.dataViewModel) {
                         // Remove any leftover data
-                        app.viewModels.listViewModel.clearData();   
+                        app.viewModels.dataViewModel.clearData();   
                     }
                 });
                 promise.fail( function(jsdosession, result, info) {
@@ -98,8 +94,9 @@
                 });              
             }
             catch(ex) {
-               app.viewModels.loginViewModel.logoutErrorFn(app.jsdosession, progress.data.Session.GENERAL_FAILURE, 
-                   {errorObject: ex});
+               app.viewModels.loginViewModel.logoutErrorFn(app.jsdosession, 
+                                                progress.data.Session.GENERAL_FAILURE, 
+                                                {errorObject: ex});
             } 
         },
  
@@ -117,7 +114,8 @@
             console.log("Error on addCatalog()");            
             if (details !== undefined  && Array.isArray(details)){
                 for (i = 0; i < details.length; i += 1){
-                    msg = msg + "\nresult for " + details[i].catalogURI + ": " + details[i].result + "\n    " + details[i].errorObject;
+                    msg = msg + "\nresult for " + details[i].catalogURI + ": " + 
+                            details[i].result + "\n    " + details[i].errorObject;
                 }
             }
             app.showError(msg);
@@ -143,15 +141,14 @@
 
          loginErrorFn: function(jsdosession, result, info) {
             var msg = "Error on login";
-             switch (result) {
-                case progress.data.Session.LOGIN_AUTHENTICATION_FAILURE:
-                    msg = msg + " Invalid userid or password";
-                    break;
-                case progress.data.Session.LOGIN_GENERAL_FAILURE:
-                default:
-                    msg = msg + " Service " + jsdoSettings.serviceURI + " is unavailable";
-                    break;
-            }       
+            
+            if (result === progress.data.Session.LOGIN_AUTHENTICATION_FAILURE) {
+                msg = msg + " Invalid userid or password";
+            }
+            else {
+                msg = msg + " Service " + jsdoSettings.serviceURI + " is unavailable";
+            }
+                  
             app.showError(msg);
             if (info.xhr) {
                 msg = msg + " status (from jqXHT):" + info.xhr.status;
