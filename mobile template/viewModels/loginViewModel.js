@@ -5,11 +5,15 @@
         username: "",
         password: "",
         isLoggedIn: false,
-        
+        loginLabel: "Log In",
+        logoutLabel: "Log Out",
+        loginViewTitle: undefined,
+  
         onBeforeShow: function(e) {
             // Always clear password
-            app.viewModels.loginViewModel.set("password", "");
-
+            app.viewModels.loginViewModel.set("password", "");      
+            app.viewModels.loginViewModel.updateLoginViewTitle();
+          
             // If logged in, show welcome message
             if (app.viewModels.loginViewModel.isLoggedIn) {
                 $("#credentials").parent().hide();
@@ -25,8 +29,22 @@
                 $("#welcome").parent().hide();            
             }        
         },
+        
+        updateLoginViewTitle: function(newTitle) {
+            if (newTitle) {
+                app.viewModels.loginViewModel.loginViewTitle = newTitle;
+            }
+            
+            // If it hasn't been set yet, default is log in...
+            if (!app.viewModels.loginViewModel.loginViewTitle) {
+                app.viewModels.loginViewModel.loginViewTitle = app.viewModels.loginViewModel.loginLabel;
+            }
+            
+            app.changeTitle(app.viewModels.loginViewModel.loginViewTitle);
+        },
 
         onInit: function(e) { 
+            app.viewModels.loginViewModel.loginViewTitle = app.viewModels.loginViewModel.loginLabel;
         },
         
         login: function(e) {    
@@ -40,6 +58,7 @@
                         console.log("Success on login()");   
                         that.set("isLoggedIn", true);
                         app.viewModels.loginViewModel.onBeforeShow( );
+                        app.viewModels.loginViewModel.updateLoginViewTitle(app.viewModels.loginViewModel.logoutLabel);
                         var catPromise = jsdosession.addCatalog(jsdoSettings.catalogURIs);
                         catPromise.done( function( jsdosession, result, details ) { 
                             console.log("Success on addCatalog()");
@@ -83,6 +102,7 @@
                     console.log("Success on logout()"); 
                     that.set("isLoggedIn", false);
                     app.viewModels.loginViewModel.onBeforeShow();
+                    app.viewModels.loginViewModel.updateLoginViewTitle(app.viewModels.loginViewModel.loginLabel);
                     
                     if (app.viewModels.dataViewModel) {
                         // Remove any leftover data
