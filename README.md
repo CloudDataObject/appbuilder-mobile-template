@@ -4,7 +4,7 @@ Mobile Project Template
 ###appbuilder-mobile-template
 A project template for creating mobile applications designed for use with a Progress Data Service (OpenEdge or Rollbase).
 
-<a href="hhttps://github.com/CloudDataObject/appbuilder-mobile-template/tree/dev_4.2" target="_blank"><img src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/try-in-appbuilder.png" alt="Try in AppBuilder" title="Try in AppBuilder" /></a>
+<a href="https://github.com/CloudDataObject/appbuilder-mobile-template/tree/dev_4.2" target="_blank"><img src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/try-in-appbuilder.png" alt="Try in AppBuilder" title="Try in AppBuilder" /></a>
 
 This template can be used in the Telerik Platform to build a Hybrid Mobile App using the JSDO libraries.
 The template supports anonymous, form and basic authentication to an OpenEdge or Rollbase server using the JSDO Session management and a JSDO catalog. The connection information is specified in the scripts/jsdoSettings.json file.
