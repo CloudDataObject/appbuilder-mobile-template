@@ -72,10 +72,10 @@
                 }); // end promise.fail
             }
             catch(ex) {
-               app.viewModels.loginViewModel.loginErrorFn(app.jsdosession, 
-                                                    progress.data.Session.GENERAL_FAILURE, 
+               app.viewModels.loginViewModel.loginErrorFn(app.jsdosession,
+                                                    progress.data.Session.GENERAL_FAILURE,
                                                     {errorObject: ex});
-            } 
+            }
         },
 
         logout: function(e) {
@@ -119,18 +119,18 @@
         },
 
         addCatalogErrorFn: function(jsdosession, result, details) {
-            var msg = "", i;            
-            console.log("Error on addCatalog()");            
+            var msg = "", i;
+            console.log("Error on addCatalog()");     
             if (details !== undefined  && Array.isArray(details)){
                 for (i = 0; i < details.length; i += 1){
-                    msg = msg + "\nresult for " + details[i].catalogURI + ": " + 
+                    msg = msg + "\nresult for " + details[i].catalogURI + ": " +
                             details[i].result + "\n    " + details[i].errorObject;
                 }
             }
             app.showError(msg);
-            console.log(msg);   
+            console.log(msg);
             // Now logout
-            if (app.viewModels.loginViewModel.isLoggedIn) { 
+            if (app.viewModels.loginViewModel.isLoggedIn) {
                 app.viewModels.loginViewModel.logout();
             }
         },
