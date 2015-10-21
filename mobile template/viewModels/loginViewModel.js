@@ -8,14 +8,14 @@
         loginViewTitle: "Log In",
         loginLabel: "Log In",
         logoutLabel: "Log Out",
-  
+
         onBeforeShow: function(e) {
             // Always clear password
             app.viewModels.loginViewModel.set("password", "");
             if (!app.isAnonymous()) {
                 app.changeTitle(app.viewModels.loginViewModel.loginViewTitle);
             }
-          
+
             // If logged in, show welcome message
             if (app.viewModels.loginViewModel.isLoggedIn) {
                 $("#credentials").parent().hide();
@@ -34,7 +34,7 @@
 
         onInit: function(e) { 
         },
-        
+
         login: function(e) {    
             var that = this, 
                 details,
@@ -47,12 +47,12 @@
                         that.set("isLoggedIn", true);
                         app.viewModels.loginViewModel.loginViewTitle = app.viewModels.loginViewModel.logoutLabel;
                         app.viewModels.loginViewModel.onBeforeShow( );
-                        
+
                         var catPromise = jsdosession.addCatalog(jsdoSettings.catalogURIs);
                         catPromise.done( function( jsdosession, result, details ) { 
                             console.log("Success on addCatalog()");
                          });
-                        
+
                         catPromise.fail( function( jsdosession, result, details) {
                             app.viewModels.loginViewModel.addCatalogErrorFn(app.jsdosession, 
                                                     progress.data.Session.GENERAL_FAILURE, details);
@@ -65,8 +65,8 @@
                     } 
  
                 });
-                
-              
+
+
                promise.fail( function(jsdosession, result, info) {
                     app.viewModels.loginViewModel.loginErrorFn(app.jsdosession, result, info);
                 }); // end promise.fail
@@ -77,11 +77,11 @@
                                                     {errorObject: ex});
             } 
         },
-         
+
         logout: function(e) {
             var that = this,
                 promise;
-                
+
             if (e) {
                 e.preventDefault();
             }
@@ -95,7 +95,7 @@
                     
                     if (app.viewModels.dataViewModel) {
                         // Remove any leftover data
-                        app.viewModels.dataViewModel.clearData();   
+                        app.viewModels.dataViewModel.clearData();
                     }
                 });
                 promise.fail( function(jsdosession, result, info) {
@@ -103,13 +103,13 @@
                 });              
             }
             catch(ex) {
-               app.viewModels.loginViewModel.logoutErrorFn(app.jsdosession, 
-                                                progress.data.Session.GENERAL_FAILURE, 
+               app.viewModels.loginViewModel.logoutErrorFn(app.jsdosession,
+                                                progress.data.Session.GENERAL_FAILURE,
                                                 {errorObject: ex});
-            } 
+            }
         },
- 
-      
+
+
         checkEnter: function (e) {
             var that = this;
             if (e.keyCode === 13) {
@@ -117,7 +117,7 @@
                 that.login();
             }
         },
-        
+
         addCatalogErrorFn: function(jsdosession, result, details) {
             var msg = "", i;            
             console.log("Error on addCatalog()");            
@@ -134,7 +134,7 @@
                 app.viewModels.loginViewModel.logout();
             }
         },
-        
+
         logoutErrorFn: function(jsdosession, result, info) {
             var msg = "Error on logout";
             app.showError(msg);
@@ -150,14 +150,14 @@
 
          loginErrorFn: function(jsdosession, result, info) {
             var msg = "Error on login";
-            
+
             if (result === progress.data.Session.LOGIN_AUTHENTICATION_FAILURE) {
                 msg = msg + " Invalid userid or password";
             }
             else {
                 msg = msg + " Service " + jsdoSettings.serviceURI + " is unavailable";
             }
-                  
+
             app.showError(msg);
             if (info.xhr) {
                 msg = msg + " status (from jqXHT):" + info.xhr.status;
@@ -173,7 +173,7 @@
             console.log(msg);
          }
     });
-    
+
     parent.loginViewModel = loginViewModel;
-    
+
 })(app.viewModels);
