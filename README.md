@@ -28,6 +28,6 @@ To test the LiveSync JavaScript API sample, choose one of the following deployme
 
 This sample is licensed under the Apache License, Version 2.0. For more information, see [License][License].
 
-[License]: License.md
+[License]: https://github.com/CloudDataObject/appbuilder-mobile-template/blob/master/LICENSE
 [Running Your App]: http://docs.telerik.com/platform/appbuilder/testing-your-app/run-your-app
 
