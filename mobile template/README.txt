@@ -7,7 +7,7 @@ In order to create and use the JSDO Dialect of the DataSource, and ultimately ac
 and optionally provide credentials. The template code instantiates an underlying progress.data.JSDOSession object providing this support. 
 This template's session-enabled support provides a default login page (only displayed for authenticationModels of type "basic" or "form").
 
-The jsdoSettings object (found in jsdoSettings.json) allows you to easily specify properties for the remote data service. 
+The jsdoSettings object (found in jsdoSettings.js) allows you to easily specify properties for the remote data service. 
 In order to run your app, you must set the properties in the jsdoSettings object.
 
 
@@ -26,9 +26,8 @@ resourceName: The name of the resource (found in a JSDO catalog file) for which 
 authenticationModel: Should be set to either: "anonymous", "basic", or "form". If not specified, it's defaulted to "anonymous". 
                      It specifies the type of authentication that the backend server requires.
                      
-displayFields: Specify one (or more) field names found in the specified resource. This field will be displayed on the list page 
-               for each row retreived from the remote data service. Note: The current template version only uses the first field 
-               name specified.
+displayFields: Specify one (or more) field names found in the specified resource. This field(s) will be displayed on the list page 
+               for each row retreived from the remote data service.
 
 
 Example jsdoSetttings object for OpenEdge:

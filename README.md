@@ -7,7 +7,7 @@ A project template for creating mobile applications designed for use with a Prog
 <a href="https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FCloudDataObject%2Fappbuilder-mobile-template" target="_blank"><img src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/try-in-appbuilder.png" alt="Try in AppBuilder" title="Try in AppBuilder" /></a>
 
 This template can be used in the Telerik Platform to build a Hybrid Mobile App using the JSDO libraries.
-The template supports anonymous, form and basic authentication to an OpenEdge or Rollbase server using the JSDO Session management and a JSDO catalog. The connection information is specified in the scripts/jsdoSettings.js file.
+The template supports anonymous, form and basic authentication to an OpenEdge or Rollbase server using the JSDO Session management and a JSDO catalog. The connection information is specified in the scripts/jsdoSettings.js file. For more information on the template, see <a href="https://documentation.progress.com/output/pdo/Using_the_Progress_Data_Service_template.pdf">Using the Progress Data Service template.</a>
 
 
 ## Using the Template
@@ -28,6 +28,6 @@ To test the LiveSync JavaScript API sample, choose one of the following deployme
 
 This sample is licensed under the Apache License, Version 2.0. For more information, see [License][License].
 
-[License]: License.md
+[License]: https://github.com/CloudDataObject/appbuilder-mobile-template/blob/master/LICENSE
 [Running Your App]: http://docs.telerik.com/platform/appbuilder/testing-your-app/run-your-app
 
