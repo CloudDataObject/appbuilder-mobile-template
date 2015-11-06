@@ -119,12 +119,27 @@
         },
 
         addCatalogErrorFn: function(jsdosession, result, details) {
-            var msg = "", i;
-            console.log("Error on addCatalog()");     
+            var msg = "Error on addCatalog()",
+                i;
+            console.log(msg);
+            
             if (details !== undefined  && Array.isArray(details)){
                 for (i = 0; i < details.length; i += 1){
-                    msg = msg + "\nresult for " + details[i].catalogURI + ": " +
-                            details[i].result + "\n    " + details[i].errorObject;
+                    if (details[i].result === progress.data.Session.SUCCESS) {
+                        msg = msg + "\n\nCatalog loaded successfully:\n  " + details[i].catalogURI;
+                    }
+                    else if (details[i].result === progress.data.Session.AUTHENTICATION_FAILURE) {
+                        msg = msg + "\n\nInvalid userid or password:\n  " + details[i].catalogURI;
+                    }
+                    else if (details[i].result === progress.data.Session.CATALOG_ALREADY_LOADED) {
+                        msg = msg + "\n\nCatalog previously loaded (not an error):\n  " + details[i].catalogURI;
+                    }
+                    else {
+                        msg = msg + "\n\nError loading catalog:\n  " + details[i].catalogURI;
+                    }
+                    if (details[i].errorObject) {
+                        msg = msg + "\nAdditional error information for this catalog:\n  " + details[i].errorObject;
+                    }
                 }
             }
             app.showError(msg);
