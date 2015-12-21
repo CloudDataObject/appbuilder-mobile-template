@@ -12,7 +12,7 @@ The template supports anonymous, form and basic authentication to an OpenEdge or
 
 ## Using the Template
 
-You can clone this sample in Telerik AppBuilder, explore and modify the code, and build and run it on Android, iOS and Windows Phone 8 devices.
+You can clone this sample in Telerik AppBuilder, explore and modify the code, and build and run it on Android and iOS devices.
 
 
 ## Running the Sample
