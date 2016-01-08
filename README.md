@@ -9,6 +9,8 @@ A project template for creating mobile applications designed for use with a Prog
 This template can be used in the Telerik Platform to build a Hybrid Mobile App using the JSDO libraries.
 The template supports anonymous, form and basic authentication to an OpenEdge or Rollbase server using the JSDO Session management and a JSDO catalog. The connection information is specified in the scripts/jsdoSettings.js file. For more information on the template, see <a href="https://documentation.progress.com/output/pdo/Using_the_Progress_Data_Service_template.pdf">Using the Progress Data Service template.</a>
 
+The project template is accessible by either selecting the “Try in AppBuilder” button or you can manually download the zip file by selecting the “Download ZIP” button above. Note: The template is not compatible with the Telerik Platform Views service.
+
 
 ## Using the Template
 
