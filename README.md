@@ -19,7 +19,7 @@ You can clone this sample in Telerik AppBuilder, explore and modify the code, an
 
 ## Running the Sample
 
-With Telerik AppBuilder, you can deploy apps in the device simulator and on device wirelessly or via cable connection. For more information about running apps, see [Running Your App][Running Your App].
+With Telerik AppBuilder, you can deploy apps in the device simulator and on devices wirelessly or via cable connection. For more information about running apps, see [Running Your App][Running Your App].
 
 To test the LiveSync JavaScript API sample, choose one of the following deployment methods.
 
