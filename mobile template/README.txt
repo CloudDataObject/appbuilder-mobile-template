@@ -33,7 +33,7 @@ displayFields: Specify one (or more) field names found in the specified resource
 Example jsdoSetttings object for OpenEdge:
 var jsdoSettings = {    
       "serviceURI": "http://oemobiledemo.progress.com/CustomerService",
-      "catalogURIs": "http://oemobiledemo.progress.com/CustomerService/static/mobile/CustomerService.json",     
+      "catalogURIs": "http://oemobiledemo.progress.com/CustomerService/static/CustomerService.json",     
       "authenticationModel": "Anonymous",
       "displayFields": "CustNum,Name",
       "resourceName": "Customer"
