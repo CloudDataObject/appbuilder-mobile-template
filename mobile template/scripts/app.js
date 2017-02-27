@@ -96,8 +96,9 @@
     };
     
     app.changeTitle =  function (customTitle) {
-    	app.mobileApp.view().header.find('[data-role="navbar"]').data('kendoMobileNavBar').title(customTitle);
-        //$("#navbar").data("kendoMobileNavBar").title(customTitle);
+		setTimeout(function () {
+			app.mobileApp.view().header.find('[data-role="navbar"]').data('kendoMobileNavBar').title(customTitle);
+		}, 0);
    	};
 
 	app.onSelectTab = function (e) {
