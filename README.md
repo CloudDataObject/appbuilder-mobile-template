@@ -1,7 +1,8 @@
 
 Mobile Project Template
 ===============
-###appbuilder-mobile-template
+## appbuilder-mobile-template
+
 A project template for creating mobile applications designed for use with a Progress Data Service (OpenEdge or Rollbase).
 
 <a href="https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FCloudDataObject%2Fappbuilder-mobile-template">Try in AppBuilder</a>
