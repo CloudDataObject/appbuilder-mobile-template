@@ -164,13 +164,18 @@
         },
 
          loginErrorFn: function(jsdosession, result, info) {
-            var msg = "Error on login";
+            var msg = "Error on login.";
 
             if (result === progress.data.Session.LOGIN_AUTHENTICATION_FAILURE) {
-                msg = msg + " Invalid userid or password";
+                msg = msg + " Invalid userid or password.";
             }
             else {
-                msg = msg + " Service " + jsdoSettings.serviceURI + " is unavailable";
+                if (info && info.errorObject) {
+                    msg = msg + " " + info.errorObject.message;
+                }
+                else {
+                    msg = msg + " Service " + jsdoSettings.serviceURI + " is unavailable.";
+                } 
             }
 
             app.showError(msg);
